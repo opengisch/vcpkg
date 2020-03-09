@@ -37,7 +37,5 @@ endif()
 file(GLOB HEADER_FILES ${SOURCE_PATH}/src/Qsci/*)
 file(COPY ${HEADER_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include/Qsci)
 
-vcpkg_copy_pdbs()
-
 # Handle copyright
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
