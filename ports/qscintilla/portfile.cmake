@@ -1,3 +1,5 @@
+include(vcpkg_common_functions)
+
 vcpkg_download_distfile(ARCHIVE
     URLS "https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.12.0/QScintilla_src-2.12.0.tar.gz"
     FILENAME "QScintilla-2.12.0.tar.gz"
@@ -14,8 +16,10 @@ vcpkg_extract_source_archive_ex(
 vcpkg_find_acquire_program(PYTHON3)
 
 # Add python3 to path
-get_filename_component(PYTHON3_PATH ${PYTHON3} DIRECTORY)
-vcpkg_add_to_path(${PYTHON3_PATH})
+get_filename_component(PYTHON_PATH ${PYTHON3} DIRECTORY)
+vcpkg_add_to_path(PREPEND ${PYTHON_PATH})
+vcpkg_add_to_path(${CURRENT_INSTALLED_DIR}/bin)
+vcpkg_add_to_path(${CURRENT_INSTALLED_DIR}/debug/bin)
 
 vcpkg_configure_qmake(
     SOURCE_PATH ${SOURCE_PATH}/src
@@ -37,5 +41,8 @@ endif()
 file(GLOB HEADER_FILES ${SOURCE_PATH}/src/Qsci/*)
 file(COPY ${HEADER_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include/Qsci)
 
+vcpkg_copy_pdbs()
+
 # Handle copyright
-file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
+file(COPY ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/qscintilla)
+file(RENAME ${CURRENT_PACKAGES_DIR}/share/qscintilla/LICENSE ${CURRENT_PACKAGES_DIR}/share/qscintilla/copyright)
