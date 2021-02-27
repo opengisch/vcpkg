@@ -1,0 +1,15 @@
+{
+  "name": "qfield",
+  "version-string": "1.8.4",
+  "port-version": 1,
+  "homepage": "https://github.com/opengisch/qfield",
+  "description": "A simplified and touch optimized frontend for QGIS.",
+  "dependencies": [
+    "qgis",
+    "qt5-sensors",
+    "qt5-webview",
+    "qt5-connectivity",
+    "qt5-quickcontrols2",
+    "qt5-declarative"
+  ]
+}
