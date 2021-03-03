@@ -67,6 +67,10 @@
         {
             "name": "gui",
             "description": "Determines whether the QGIS gui should be built"
+        },
+        {
+            "name": "desktop",
+            "description": "Determines whether the QGIS desktop (main app) should be built"
         }
     ]
   }
