@@ -71,6 +71,10 @@
         {
             "name": "desktop",
             "description": "Determines whether the QGIS desktop (main app) should be built"
+        },
+        {
+            "name": "customwidgets",
+            "description": "Determines whether the QGIS custom widgets for QtCreator should be built"
         }
     ]
   }
