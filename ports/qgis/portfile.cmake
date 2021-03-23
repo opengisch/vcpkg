@@ -101,7 +101,7 @@ if(VCPKG_TARGET_IS_WINDOWS)
         MESSAGE(STATUS  "Install pip for Python Begin ...")
         vcpkg_download_distfile(
             GET_PIP_PATH
-            URLS https://bootstrap.pypa.io/3.4/get-pip.py
+            URLS https://bootstrap.pypa.io/pip/3.4/get-pip.py
             FILENAME get-pip.py
             SHA512  2accfa705be5ca38bb2c7851292cf985e9c1eaa8b8a0871bdbf37672c0af796d4f976fa8caf7764d8ddfce46f6396d546e5d446812ef9e2f6411dc30b40764ed
         )
