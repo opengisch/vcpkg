@@ -1,7 +1,7 @@
 vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
 
-set(QGIS_REF 204fc2a34f3faf9072c3537c9c00f6a2cb3128a7)
-set(QGIS_SHA512 6a146ba18fc43ac9d00170745310d0a26177614fb1dc57b06c81f7208cc188958e59e36e5ee678352b8ededeecfc51ba472b1df13a27581bd1a2ef0ec09a0a1f)
+set(QGIS_REF 5c212369aef5174fee3723c0c2dcea99f8270f7a)
+set(QGIS_SHA512 d2400458fc9ee2d00dac5c1bb91abb100e243eb6d4c892a36aabcc25cc73b71707a2931d889c4d0687f18e9164e5e2db6c3f8382f7c4f85fb123e0cb2a1b84a8)
 
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
@@ -12,8 +12,6 @@ vcpkg_from_github(
     PATCHES
         # Make qgis support python's debug library
         qgspython.patch
-        # In vcpkg, qca's library name is qca, but qgis defaults to qca-qt5 or qca2-qt5, so add qca for easy searching
-        qca.patch
 )
 
 vcpkg_find_acquire_program(FLEX)
