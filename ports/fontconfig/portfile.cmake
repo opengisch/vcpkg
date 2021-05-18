@@ -73,12 +73,10 @@ if(EXISTS "${_file}")
     file(WRITE "${_file}" "${_contents}")
 endif()
 
-file(GLOB cfgs "${CURRENT_PACKAGES_DIR}/etc/fonts/conf.d/*")
-file(REMOVE ${cfgs})
-
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/var"
                     "${CURRENT_PACKAGES_DIR}/debug/share"
-                    "${CURRENT_PACKAGES_DIR}/debug/etc")
+                    "${CURRENT_PACKAGES_DIR}/debug/etc"
+                    "${CURRENT_PACKAGES_DIR}/etc/fonts/conf.d")
 
 if(VCPKG_LIBRARY_LINKAGE STREQUAL dynamic)
     if(VCPKG_TARGET_IS_WINDOWS)
