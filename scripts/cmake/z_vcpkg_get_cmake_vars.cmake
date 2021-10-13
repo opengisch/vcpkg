@@ -33,10 +33,19 @@ message(STATUS "detected CXX flags: ${VCPKG_DETECTED_CXX_FLAGS}")
 #]===]
 
 function(z_vcpkg_get_cmake_vars out_file)
-    cmake_parse_arguments(PARSE_ARGV 1 arg "" "" "")
+    cmake_parse_arguments(PARSE_ARGV 1 arg "" "triplet;target_architecture;var_prefix" "")
+    #    cmake_parse_arguments(PARSE_ARGV 1 arg "" "" "")
 
     if(DEFINED arg_UNPARSED_ARGUMENTS)
         message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} was passed extra arguments: ${arg_UNPARSED_ARGUMENTS}")
+    endif()
+
+    if(NOT arg_TRIPLET)
+        set(arg_TRIPLET ${TARGET_TRIPLET})
+    endif()
+
+    if(NOT arg_TARGET_ARCHITECTURE)
+        set(arg_TARGET_ARCHITECTURE ${VCPKG_TARGET_ARCHITECTURE})
     endif()
 
     if(NOT DEFINED CACHE{Z_VCPKG_GET_CMAKE_VARS_FILE})
@@ -44,9 +53,11 @@ function(z_vcpkg_get_cmake_vars out_file)
             CACHE PATH "The file to include to access the CMake variables from a generated project.")
         vcpkg_configure_cmake(
             SOURCE_PATH "${SCRIPTS}/get_cmake_vars"
-            OPTIONS_DEBUG "-DVCPKG_OUTPUT_FILE:PATH=${CURRENT_BUILDTREES_DIR}/cmake-vars-${TARGET_TRIPLET}-dbg.cmake.log"
-            OPTIONS_RELEASE "-DVCPKG_OUTPUT_FILE:PATH=${CURRENT_BUILDTREES_DIR}/cmake-vars-${TARGET_TRIPLET}-rel.cmake.log"
+            OPTIONS_DEBUG "-DVCPKG_OUTPUT_FILE:PATH=${CURRENT_BUILDTREES_DIR}/cmake-vars-${arg_TRIPLET}-dbg.cmake.log"
+            OPTIONS_RELEASE "-DVCPKG_OUTPUT_FILE:PATH=${CURRENT_BUILDTREES_DIR}/cmake-vars-${arg_TRIPLET}-rel.cmake.log"
             PREFER_NINJA
+            TRIPLET ${arg_TRIPLET}
+            TARGET_ARCHITECTURE ${arg_TARGET_ARCHITECTURE}
             LOGNAME get-cmake-vars-${TARGET_TRIPLET}
             Z_GET_CMAKE_VARS_USAGE # ignore vcpkg_cmake_configure, be quiet, don't set variables...
         )
