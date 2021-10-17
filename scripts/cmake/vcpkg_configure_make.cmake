@@ -606,7 +606,7 @@ function(vcpkg_configure_make)
             # --target: the machine that CC will produce binaries for
             # https://stackoverflow.com/questions/21990021/how-to-determine-host-value-for-configure-when-using-cross-compiler
             # Only for ports using autotools so we can assume that they follow the common conventions for build/target/host
-            list(APPEND _csc_BUILD_TRIPLET "--host=${TARGET_ARCH}-${TARGET_OS}" "--build=${HOST_ARCH}-${HOST_OS}") 
+            string(APPEND _csc_BUILD_TRIPLET "--host=${TARGET_ARCH}-${TARGET_OS} --build=${HOST_ARCH}-${HOST_OS}") 
             debug_message("Using make triplet: ${_csc_BUILD_TRIPLET}")
         endif()
 
