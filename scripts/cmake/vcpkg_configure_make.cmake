@@ -1014,6 +1014,7 @@ function(vcpkg_configure_make)
         # and libtool tries to avoid versioning for shared libraries and no symbolic links are created.
         if(VCPKG_TARGET_IS_ANDROID)
             set(ENV{LDFLAGS} "-avoid-version $ENV{LDFLAGS}")
+            set(ENV{API} ${CMAKE_SYSTEM_VERSION})
         endif()
 
         if(LINK_ENV_${_VAR_SUFFIX})
