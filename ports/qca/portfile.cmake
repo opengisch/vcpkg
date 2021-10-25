@@ -98,13 +98,7 @@ file(WRITE
     "${QCA_DEBUG_CONFIG}"
 )
 
-file(READ ${CURRENT_PACKAGES_DIR}/share/qca/cmake/QcaTargets.cmake
-    QCA_TARGET_CONFIG
-)
-string(REPLACE "packages/qca_" "installed/" QCA_TARGET_CONFIG "${QCA_TARGET_CONFIG}")
-file(WRITE ${CURRENT_PACKAGES_DIR}/share/qca/cmake/QcaTargets.cmake
-    "${QCA_TARGET_CONFIG}"
-)
+file(REMOVE ${CURRENT_PACKAGES_DIR}/share/qca/cmake/QcaTargets.cmake)
 
 # Remove unneeded dirs
 file(REMOVE_RECURSE 
@@ -113,6 +107,10 @@ file(REMOVE_RECURSE
     ${CURRENT_PACKAGES_DIR}/debug/include
     ${CURRENT_PACKAGES_DIR}/debug/share
 )
+
+# Patch cmake config file
+file(INSTALL ${CMAKE_CURRENT_LIST_DIR}/QcaTargets.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT}/cmake/)
+
 message(STATUS "Patching files done")
 
 # Handle copyright
