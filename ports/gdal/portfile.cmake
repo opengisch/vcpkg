@@ -216,6 +216,7 @@ else()
     add_config("--with-png=yes"      "LIBPNG support:            external")
     add_config("--with-webp=yes"     "WebP support:              yes")
     add_config("--with-xml2=yes"     "libxml2 support:           yes")
+    add_config("--with-poppler=yes"     "Poppler support:           yes")
     add_config("--with-openjpeg=yes" "OpenJPEG support:          yes")
     add_config("--with-proj=yes"     "PROJ >= 6:                 yes")
     add_config("--with-sqlite3=yes"  "SQLite support:            yes")
@@ -321,7 +322,6 @@ else()
             --with-pcre=no
             --with-pdfium=no
             --with-podofo=no
-            --with-poppler=no
             --with-qhull=no
             --with-rasdaman=no
             --with-rasterlite2=no

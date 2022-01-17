@@ -22,6 +22,7 @@
     "libxml2",
     "openjpeg",
     "proj4",
+    "poppler",
     "sqlite3",
     "tiff",
     {
