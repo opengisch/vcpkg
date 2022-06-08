@@ -121,6 +121,12 @@ macro(z_convert_to_list input output)
     string(REGEX MATCHALL "(( +|^ *)[^ ]+)" ${output} "${${input}}")
 endmacro()
 
+function(z_vcpkg_setup_detected_env env_name cmake_var)
+    if(DEFINED VCPKG_DETECTED_${cmake_var})
+        set("ENV{${env_name}}" "${VCPKG_DETECTED_${cmake_var}}")
+    endif()
+endfunction()
+
 function(vcpkg_configure_make)
     # parse parameters such that semicolons in options arguments to COMMAND don't get erased
     cmake_parse_arguments(PARSE_ARGV 0 arg
@@ -379,6 +385,31 @@ function(vcpkg_configure_make)
             endif()
             debug_message("Using make triplet: ${arg_BUILD_TRIPLET}")
         endif()
+    endif()
+
+    # Android - cross-compiling support
+    if(VCPKG_TARGET_IS_ANDROID)
+        if(arg_DETERMINE_BUILD_TRIPLET OR NOT arg_BUILD_TRIPLET)
+            if(VCPKG_HOST_IS_WINDOWS)
+                z_vcpkg_determine_autotools_host_cpu(BUILD_ARCH)
+                z_vcpkg_determine_host_mingw(BUILD_MINGW)
+                set(arg_BUILD_TRIPLET "--build=${BUILD_ARCH}-pc-${BUILD_MINGW}")
+            elseif(VCPKG_HOST_IS_OSX)
+                z_vcpkg_determine_autotools_host_arch_mac(BUILD_ARCH)
+                set(arg_BUILD_TRIPLET "--build=${BUILD_ARCH}-apple-darwin")
+            else()
+                z_vcpkg_determine_autotools_host_cpu(BUILD_ARCH)
+                set(arg_BUILD_TRIPLET "--build=${BUILD_ARCH}-pc-linux-gnu")
+            endif()
+
+            z_vcpkg_determine_autotools_target_cpu(TARGET_ARCH)
+            if(TARGET_ARCH MATCHES "armv7-a")
+                string(APPEND arg_BUILD_TRIPLET " --host=arm-linux-androideabi")
+            else()
+                string(APPEND arg_BUILD_TRIPLET " --host=${TARGET_ARCH}-linux-android")
+            endif()
+        endif()
+        debug_message("Using make triplet: ${arg_BUILD_TRIPLET}")
     endif()
     
     # Cleanup previous build dirs
@@ -640,6 +671,14 @@ function(vcpkg_configure_make)
         endforeach()
         vcpkg_list(JOIN tmp " " "${var}")
     endforeach()
+
+    foreach(tool IN ITEMS AR AS MT NM RANLIB READELF STRIP OBJDUMP DLLTOOL)
+        z_vcpkg_setup_detected_env(${tool} "CMAKE_${tool}")
+    endforeach()
+
+    z_vcpkg_setup_detected_env(CC CMAKE_C_COMPILER)
+    z_vcpkg_setup_detected_env(CXX CMAKE_CXX_COMPILER)
+    z_vcpkg_setup_detected_env(LD CMAKE_LINKER)
 
     foreach(current_buildtype IN LISTS all_buildtypes)
         foreach(ENV_VAR ${arg_CONFIG_DEPENDENT_ENVIRONMENT})

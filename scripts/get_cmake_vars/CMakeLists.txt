@@ -112,6 +112,12 @@ macro(_vcpkg_adjust_flags flag_var)
             endif()
         endif()
     endif()
+
+    if(CMAKE_SYSTEM_NAME MATCHES "Android")
+        if("${flag_var}" MATCHES "CMAKE_(C|CXX)_FLAGS$")
+            string(APPEND ${flag_var} " ${CMAKE_CXX_COMPILE_OPTIONS_TARGET}${ANDROID_LLVM_TRIPLE} ")
+        endif()
+    endif()
 endmacro()
 
 foreach(flag IN LISTS VCPKG_FLAGS_TO_CHECK)
