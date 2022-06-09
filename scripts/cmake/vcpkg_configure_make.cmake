@@ -124,7 +124,7 @@ macro(z_convert_to_list input output)
 endmacro()
 
 function(z_vcpkg_setup_detected_env env_name cmake_var)
-    if(DEFINED VCPKG_DETECTED_${cmake_var})
+    if(DEFINED VCPKG_DETECTED_${cmake_var} AND NOT VCPKG_TARGET_IS_OSX)
         set("ENV{${env_name}}" "${VCPKG_DETECTED_${cmake_var}}")
     endif()
 endfunction()
