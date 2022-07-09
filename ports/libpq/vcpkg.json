@@ -8,6 +8,10 @@
   "supports": "!uwp",
   "dependencies": [
     {
+      "name": "vcpkg-cmake-get-vars",
+      "host": true
+    },
+    {
       "name": "libpq",
       "default-features": false,
       "features": [
