@@ -679,6 +679,7 @@ function(vcpkg_configure_make)
     endforeach()
 
     z_vcpkg_setup_detected_env(CC CMAKE_C_COMPILER)
+    set(ENV{CPP} "${VCPKG_DETECTED_CMAKE_C_COMPILER} -P -E")
     z_vcpkg_setup_detected_env(CXX CMAKE_CXX_COMPILER)
     z_vcpkg_setup_detected_env(LD CMAKE_LINKER)
 
