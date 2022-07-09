@@ -1,4 +1,5 @@
 set(PORT_VERSION 14.1)
+set(PORT_DEBUG ON)
 # NOTE: the python patches must be regenerated on version update
 
 ## Download and extract sources

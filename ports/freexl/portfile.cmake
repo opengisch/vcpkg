@@ -1,4 +1,5 @@
 set(FREEXL_VERSION_STR "1.0.6")
+set(PORT_DEBUG ON)
 
 vcpkg_download_distfile(ARCHIVE
     URLS "https://www.gaia-gis.it/gaia-sins/freexl-sources/freexl-${FREEXL_VERSION_STR}.tar.gz"
@@ -75,6 +76,7 @@ else()
     vcpkg_configure_make(
         SOURCE_PATH "${SOURCE_PATH}"
         AUTOCONFIG
+        DETERMINE_BUILD_TRIPLET
     )
     vcpkg_install_make()
 

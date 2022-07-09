@@ -177,6 +177,7 @@ else()
     vcpkg_configure_make(
         SOURCE_PATH "${SOURCE_PATH}"
         AUTOCONFIG
+        DETERMINE_BUILD_TRIPLET
         OPTIONS
             ${TARGET_ALIAS}
             ${FREEXL_OPTION}

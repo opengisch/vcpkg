@@ -81,6 +81,7 @@ else()
 
     vcpkg_configure_make(
         AUTOCONFIG
+        DETERMINE_BUILD_TRIPLET
         SOURCE_PATH "${SOURCE_PATH}"
         OPTIONS
             --disable-tests
