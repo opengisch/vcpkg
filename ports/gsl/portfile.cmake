@@ -12,6 +12,7 @@ vcpkg_extract_source_archive_ex(
     PATCHES
         0001-configure.patch
         0002-add-fp-control.patch
+        finite.patch
 )
 
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt" DESTINATION "${SOURCE_PATH}")

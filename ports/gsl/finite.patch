@@ -1,0 +1,12 @@
+diff -Naur gsl-2-40b499007f.clean/config.h b/config.h
+--- gsl-2-40b499007f.clean/config.h	2022-07-12 19:39:40.000000000 +0200
++++ b/config.h	2022-07-12 19:37:40.000000000 +0200
+@@ -35,7 +35,7 @@
+ 
+ /* Define to 1 if you have the declaration of `finite', and to 0 if you don't.
+    */
+-#undef HAVE_DECL_FINITE
++#define HAVE_DECL_FINITE 1
+ 
+ /* Define to 1 if you have the declaration of `fprnd_t', and to 0 if you
+    don't. */
