@@ -392,7 +392,7 @@ function(vcpkg_configure_make)
             # Only for ports using autotools so we can assume that they follow the common conventions for build/target/host
             debug_message("Target Arch: ${TARGET_ARCH}")
             debug_message("Build Arch: ${BUILD_ARCH}")
-            if(NOT "${TARGET_ARCH}" STREQUAL "${BUILD_ARCH}") # we don't need to specify the additional flags if we build natively.
+            if(NOT "${TARGET_ARCH}" STREQUAL "${BUILD_ARCH}" OR VCPKG_TARGET_IS_IOS) # we don't need to specify the additional flags if we build natively.
                 set(arg_BUILD_TRIPLET "--host=${TARGET_ARCH}-apple-darwin") # (Host activates crosscompilation; The name given here is just the prefix of the host tools for the target)
             endif()
             debug_message("Using make triplet: ${arg_BUILD_TRIPLET}")
