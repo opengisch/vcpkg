@@ -477,6 +477,14 @@ function(vcpkg_configure_make)
             debug_message("Using make triplet: ${arg_BUILD_TRIPLET}")
         endif()
     endif()
+
+    # Android - cross-compiling support
+    if(VCPKG_TARGET_IS_ANDROID)
+        if (requires_autoconfig AND NOT arg_BUILD_TRIPLET OR arg_DETERMINE_BUILD_TRIPLET)
+            set(arg_BUILD_TRIPLET "--host=${VCPKG_DETECTED_CMAKE_HOST_SYSTEM_PROCESSOR}-linux")
+            debug_message("Using make triplet: ${arg_BUILD_TRIPLET}")
+        endif()
+    endif()
     
     # Cleanup previous build dirs
     file(REMOVE_RECURSE "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel"
