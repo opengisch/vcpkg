@@ -8,7 +8,6 @@ list(APPEND VCPKG_DEFAULT_VARS_TO_CHECK CMAKE_CROSSCOMPILING
                                         CMAKE_SYSTEM_NAME
                                         CMAKE_HOST_SYSTEM_NAME
                                         CMAKE_SYSTEM_PROCESSOR
-                                        CMAKE_CXX_COMPILER_TARGET
                                         CMAKE_HOST_SYSTEM_PROCESSOR)
 if(APPLE)
     list(APPEND VCPKG_DEFAULT_VARS_TO_CHECK CMAKE_OSX_DEPLOYMENT_TARGET
@@ -45,7 +44,7 @@ list(APPEND VCPKG_DEFAULT_ENV_VARS_TO_CHECK PATH INCLUDE C_INCLUDE_PATH CPLUS_IN
 list(REMOVE_DUPLICATES VCPKG_DEFAULT_ENV_VARS_TO_CHECK)
 
 #Flags to check. Flags are a bit special since they are configuration aware. 
-set(FLAGS ${VCPKG_LANGUAGES} RC SHARED_LINKER STATIC_LINKER EXE_LINKER)
+set(FLAGS ${VCPKG_LANGUAGES} RC SHARED_LINKER STATIC_LINKER EXE_LINKER MODULE_LINKER)
 foreach(flag IN LISTS FLAGS)
     list(APPEND VCPKG_DEFAULT_FLAGS_TO_CHECK CMAKE_${flag}_FLAGS)
 endforeach()
@@ -100,6 +99,7 @@ macro(_vcpkg_adjust_flags flag_var)
         endif()
     endif()
     if(APPLE)
+        list(APPEND VCPKG_LANG_FLAGS CMAKE_SHARED_LINKER_FLAGS CMAKE_EXE_LINKER_FLAGS CMAKE_MODULE_LINKER_FLAGS)
         if("${flag_var}" IN_LIST VCPKG_LANG_FLAGS)
             # macOS - append arch and isysroot if cross-compiling
             if(NOT "${CMAKE_OSX_ARCHITECTURES}" STREQUAL "${CMAKE_HOST_SYSTEM_PROCESSOR}")
@@ -109,10 +109,10 @@ macro(_vcpkg_adjust_flags flag_var)
             endif()
             string(APPEND ${flag_var} " -isysroot ${CMAKE_OSX_SYSROOT}")
             if (CMAKE_OSX_DEPLOYMENT_TARGET)
-                if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
-                    string(APPEND ${flag_var} " -mios-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
-                elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-                    string(APPEND ${flag_var} " -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+                if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+                    string(APPEND ${flag_var} " -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}") 
+                elseif(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+                    string(APPEND ${flag_var} " -mios-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}") 
                 endif()
             endif()
         endif()
@@ -133,7 +133,6 @@ foreach(flag IN LISTS VCPKG_FLAGS_TO_CHECK)
         string(APPEND OUTPUT_STRING "set(${VCPKG_VAR_PREFIX}_${flag}_${config} \"${COMBINED_${flag}_${config}}\")\n")
     endforeach()
 endforeach()
-
 
 file(WRITE "${VCPKG_OUTPUT_FILE}" "${OUTPUT_STRING}")
 
